@@ -63,9 +63,11 @@ VGG16 outperforms the custom model on gender classification (+4.35% validation a
 
 ## Key Findings
 
-- Transfer learning (VGG16) provides a meaningful accuracy gain for gender classification but does not outperform the custom model on age estimation at this dataset scale
-- Custom CNN demonstrated competitive performance despite fewer parameters, highlighting the value of careful architecture design and regularisation on small datasets
-- Loss weighting between tasks is a critical hyperparameter — shifting weight toward age prediction (0.7 → 0.6) improved gender accuracy in Model B at a minor cost to age MAE
+- VGG16 outperforms the custom CNN on gender classification (+4.35% validation accuracy), consistent with the known advantage of ImageNet pretraining when labelled data is limited
+- The custom CNN achieves lower age MAE (7.5 vs 7.9), likely because the lighter architecture is less prone to overfitting on a 5,000-image subset — VGG16's larger parameter count works against it here
+- Minimal augmentation (random zoom and rotation ±5%) was intentional given the small dataset size — aggressive augmentation distorted facial features and degraded model performance in preliminary tests
+- Both models show a validation-training MAE gap (~1.5–1.7 years), indicating mild overfitting expected at this scale; a larger dataset or stronger regularisation would likely close this gap
+- Loss weight tuning between tasks meaningfully affects results — shifting weight toward age prediction improved gender accuracy in VGG16 at a minor cost to age MAE, suggesting the two tasks compete for representational capacity in the shared layers
 
 ---
 
